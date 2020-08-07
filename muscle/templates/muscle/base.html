@@ -8,7 +8,7 @@
         href="{% static 'muscle/style.css' %}">
     </head>
     <body>
-        <h1>{{ year }}年{{ month }}月</h1>
+        <h1>{{ year }}年{{ month }}月/{{span}}</h1>
           
         <form action="/muscle/" method="post">
             {% csrf_token %}

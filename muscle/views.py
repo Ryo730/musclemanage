@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import trainlog,BodyWeight
 from .forms import  trainlogform,BodyWeightform
-
+from  django.db.models import Q
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pytz
-
+ 
 
 today = str(timezone.now()).split('-')
 def index(request,year=today[0],month=today[1],span=1):
@@ -75,13 +75,20 @@ def draw_graph(year,month,span):
             'abs',
             'leg',
     ]
-    train=trainlog.objects.filter(used_date__year=year,used_date__month=month)
+    if span==1:
+        train=trainlog.objects.filter(used_date__year=year,used_date__month=month)
+    elif span==2:
+        train=trainlog.objects.filter(Q(used_date__year=year),Q(used_date__month=month)|Q(used_date__year=year),Q(used_date__month=month-1))
     values=[0,0,0,0,0,0]
-    for i in label:
-        for t,n in zip(train,range(0,6)):
-            if t.category==i:
-                values[n]=values[n]+1
-
+    #ここのアルゴリズムチェック必要
+    #for i in label:
+     #   for t,n in zip(train,range(0,6)):
+      #      if t.category==i:
+       #         values[n]=values[n]+1
+    for t in train:
+        for i,n in zip(label,range(0,6)):
+            if t.category==i :
+                values[n]+=1
 
     angles = np.linspace(0, 2 * np.pi, len(label) + 1, endpoint=True)
     values = np.concatenate((values, [values[0]]))  # 閉じた多角形にする
@@ -90,34 +97,28 @@ def draw_graph(year,month,span):
     ax.plot(angles, values, 'o-')  # 外枠
     ax.fill(angles, values, alpha=0.25)  # 塗りつぶし
     ax.set_thetagrids(angles[:-1] * 180 / np.pi, label)  # 軸ラベル
-    ax.set_rlim(0 ,5)
+    ax.set_rlim(0 ,7)
     fig.savefig('muscle/static/images/rador_chart_{}_{}_{}.svg'.format(year,month,span),transparent=True)
     plt.close(fig)
     return None
-##label value 保存名を渡せば作ってくれる
-def plot_polar(labels, values):
-    angles = np.linspace(0, 2 * np.pi, len(labels) + 1, endpoint=True)
-    values = np.concatenate((values, [values[0]]))  # 閉じた多角形にする
-    fig = plt.figure()
-    ax = fig.add_subplot(111, polar=True)
-    ax.plot(angles, values, 'o-')  # 外枠
-    ax.fill(angles, values, alpha=0.25)  # 塗りつぶし
-    ax.set_thetagrids(angles[:-1] * 180 / np.pi, labels)  # 軸ラベル
-    ax.set_rlim(0 ,250)
-   
+
 
 
 
 #同様にspanなしの状態まで復元
 def draw_linear(year,month,span):
-
-    weight=BodyWeight.objects.filter(used_date__year=year,used_date__month=month).order_by('used_date')
+    weight=0
+    if span==1:
+        weight=BodyWeight.objects.filter(used_date__year=year,used_date__month=month).order_by('used_date')
+    if span==2:
+        weight=BodyWeight.objects.filter(Q(used_date__year=year),Q(used_date__month=month)|Q(used_date__year=year),Q(used_date__month=month-1)).order_by('used_date')
     daylist=[]
     weightlist=[]
     for w in weight:
-        #daylist.append()<=後回し（span変更時の仕様確認必要）
+        #
+        # daylist.append()<=後回し（span変更時の仕様確認必要）
         weightlist.append(w.weight)
     plt.plot(weightlist)
     plt.savefig('muscle/static/images/bar_{}_{}_{}.svg'.format(year,month,span),transparent=True)   
-
+    plt.close()
     return None
