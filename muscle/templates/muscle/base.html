@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>MuscleTrainLog</title>
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'muscle/style.css' %}">
+    </head>
+    <body>
+        <h1>{{ year }}年{{ month }}月</h1>
+          
+        <form action="/muscle/" method="post">
+            {% csrf_token %}
+            {{ trainform.as_table }}
+            <input type="submit" name="train" value="送信">
+        </form>
+
+
+        <form action="/muscle/" method="post">
+            {% csrf_token %}
+            {{ weightform.as_table }}
+            <input type="submit" name="weightbutton" value="送信">
+        </form>
+        <div>
+        <a href="/muscle/{{ year }}/{{ month }}/{{1}}">
+        <h4>1ヶ月</h4>
+        <a href="/muscle/{{ year }}/{{ month }}/{{2}}">
+        <h4>2ヶ月</h4>
+        </div>
+        <div class='wapper'>
+        <div class='main'>
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>種目</th>
+                <th>コメント</th>
+            </tr>
+            {% for m in train %}
+            <tr>
+                <td>{{ m.used_date }}</td>
+                <td>{{ m.category }}</td>
+                <td>{{ m.comment }}</td>
+            </tr>
+            {% endfor %}
+        <table>
+
+
+
+        </div>
+        <div class="main">
+                <img src="/static/images/bar_{{ year }}_{{ month }}_{{span}}.svg">
+        </div>
+
+
+
+        <div class="main">
+                <img src="/static/images/rador_chart_{{ year }}_{{ month }}_{{span}}.svg">
+        </div>
+
+        </div>
+    </body>
+</html>
