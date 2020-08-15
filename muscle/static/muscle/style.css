@@ -14,3 +14,12 @@ table{
   td,th{
     padding:10px;
   }
+
+  tt{
+    display:table;
+  
+  }
+
+li a{
+  float:left;
+}

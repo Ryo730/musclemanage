@@ -12,7 +12,7 @@ import pytz
 today = str(timezone.now()).split('-')
 def index(request,year=today[0],month=today[1],span=1):
     train= trainlog.objects.all().order_by('used_date')
-    body=BodyWeight.objects.all()
+    #body=BodyWeight.objects.all()
     trainform=trainlogform()
     weightform=BodyWeightform()
     for m in train:
@@ -76,16 +76,12 @@ def draw_graph(year,month,span):
             'leg',
     ]
     if span==1:
-        train=trainlog.objects.filter(used_date__year=year,used_date__month=month)
+        trains=trainlog.objects.filter(used_date__year=year,used_date__month=month).order_by('used_date')
     elif span==2:
-        train=trainlog.objects.filter(Q(used_date__year=year),Q(used_date__month=month)|Q(used_date__year=year),Q(used_date__month=month-1))
+        trains=trainlog.objects.filter(Q(used_date__year=year),(Q(used_date__month=month)|Q(used_date__month=month-1))).order_by('used_date')
     values=[0,0,0,0,0,0]
     #ここのアルゴリズムチェック必要
-    #for i in label:
-     #   for t,n in zip(train,range(0,6)):
-      #      if t.category==i:
-       #         values[n]=values[n]+1
-    for t in train:
+    for t in trains:
         for i,n in zip(label,range(0,6)):
             if t.category==i :
                 values[n]+=1
@@ -96,8 +92,11 @@ def draw_graph(year,month,span):
     ax = fig.add_subplot(111, polar=True)
     ax.plot(angles, values, 'o-')  # 外枠
     ax.fill(angles, values, alpha=0.25)  # 塗りつぶし
-    ax.set_thetagrids(angles[:-1] * 180 / np.pi, label)  # 軸ラベル
-    ax.set_rlim(0 ,7)
+    ax.set_thetagrids(angles[:-1] * 180 / np.pi,label)  # 軸ラベル 初期第一引数angles[:-1] * 180 / np.pi
+    if max(values)>4:
+        ax.set_rlim(0,7)
+    else:
+        ax.set_rlim(0,5)
     fig.savefig('muscle/static/images/rador_chart_{}_{}_{}.svg'.format(year,month,span),transparent=True)
     plt.close(fig)
     return None
@@ -111,14 +110,17 @@ def draw_linear(year,month,span):
     if span==1:
         weight=BodyWeight.objects.filter(used_date__year=year,used_date__month=month).order_by('used_date')
     if span==2:
-        weight=BodyWeight.objects.filter(Q(used_date__year=year),Q(used_date__month=month)|Q(used_date__year=year),Q(used_date__month=month-1)).order_by('used_date')
+        weight=BodyWeight.objects.filter(Q(used_date__year=year),(Q(used_date__month=month)|Q(used_date__month=month-1))).order_by('used_date')
     daylist=[]
     weightlist=[]
     for w in weight:
-        #
-        # daylist.append()<=後回し（span変更時の仕様確認必要）
+        #date = str(w.used_date).split(' ')[0]
+        date=w.used_date.strftime('%m%d')
+        daylist.append(date)
+        #<=後回し（span変更時の仕様確認必要）
         weightlist.append(w.weight)
-    plt.plot(weightlist)
+    plt.plot(daylist,weightlist)
+    plt.xticks(rotation=90)
     plt.savefig('muscle/static/images/bar_{}_{}_{}.svg'.format(year,month,span),transparent=True)   
     plt.close()
     return None

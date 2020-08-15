@@ -6,10 +6,20 @@
         <title>MuscleTrainLog</title>
         <link rel="stylesheet" type="text/css"
         href="{% static 'muscle/style.css' %}">
+        
     </head>
     <body>
+        
+    <div class='tt'>
         <h1>{{ year }}年{{ month }}月/{{span}}</h1>
-          
+        <div　class='spans'>
+        <li><a href="/muscle/{{ year }}/{{ month }}/{{1}}">
+        1ヶ月
+        </a></li>
+        <li><a href="/muscle/{{ year }}/{{ month }}/{{2}}">
+        2ヶ月
+        </a></li>
+        </div>
         <form action="/muscle/" method="post">
             {% csrf_token %}
             {{ trainform.as_table }}
@@ -22,11 +32,7 @@
             {{ weightform.as_table }}
             <input type="submit" name="weightbutton" value="送信">
         </form>
-        <div>
-        <a href="/muscle/{{ year }}/{{ month }}/{{1}}">
-        <h4>1ヶ月</h4>
-        <a href="/muscle/{{ year }}/{{ month }}/{{2}}">
-        <h4>2ヶ月</h4>
+
         </div>
         <div class='wapper'>
         <div class='main'>
@@ -48,15 +54,15 @@
 
 
         </div>
-        <div class="main">
+        <div class="main,tt">
                 <img src="/static/images/bar_{{ year }}_{{ month }}_{{span}}.svg">
-        </div>
-
-
-
-        <div class="main">
+        
                 <img src="/static/images/rador_chart_{{ year }}_{{ month }}_{{span}}.svg">
-        </div>
+       </div>
+
+
+
+        
 
         </div>
     </body>
