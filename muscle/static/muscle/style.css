@@ -1,25 +1,41 @@
 table{
-    border-collapse:collapse;
-    margin:0 0;
-  }
-  th{
-    color:#005ab3;
-  }
-  td{
-    border-bottom:1px dashed #999;
-  }
-  th,tr:last-child td{
-    border-bottom:2px solid #005ab3;
-  }
-  td,th{
-    padding:10px;
-  }
+  border-collapse:collapse;
+  margin:0 0;
+}
+th{
+  color:#c170c4;
+}
+td{
+  border-bottom:1px dashed #999;
+}
+th,tr:last-child td{
+  border-bottom:2px solid #005ab3;
+}
+td,th{
+  padding:10px;
+}
 
-  tt{
-    display:table;
-  
-  }
+tt{
+  display:table;
 
-li a{
-  float:left;
+}
+
+ul.spans li {
+display: inline;
+margin-right: 5em;
+}
+
+.spans li{
+  display       : inline-block;
+  border-radius : 5%;          /* 角丸       */
+  font-size     : 5pt;        /* 文字サイズ */
+  text-align    : left;      /* 文字位置   */
+  cursor        : pointer;     /* カーソル   */
+  padding       : 6px 6px;   /* 余白       */
+  background    :whitesmoke;     /* 背景色     */
+  color         :beige;     /* 文字色     */
+  line-height   : 1em;         /* 1行の高さ  */
+  transition    : .3s;         /* なめらか変化 */
+  box-shadow    : 6px 6px 3px #666666;  /* 影の設定 */
+  border        : 1px solid #000066;    /* 枠の指定 */
 }

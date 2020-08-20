@@ -6,20 +6,22 @@
         <title>MuscleTrainLog</title>
         <link rel="stylesheet" type="text/css"
         href="{% static 'muscle/style.css' %}">
-        
+
     </head>
     <body>
-        
+
+
+    <h1>{{ year }}年{{ month }}月/{{span}}ヶ月分</h1>
+    <ul class="spans">
+    <li><a href="/muscle/{{ year }}/{{ month }}/{{1}}">
+    1ヶ月
+    </a></li>
+
+    <li><a href="/muscle/{{ year }}/{{ month }}/{{2}}">
+    2ヶ月
+    </a></li>
+    </ul>
     <div class='tt'>
-        <h1>{{ year }}年{{ month }}月/{{span}}</h1>
-        <div　class='spans'>
-        <li><a href="/muscle/{{ year }}/{{ month }}/{{1}}">
-        1ヶ月
-        </a></li>
-        <li><a href="/muscle/{{ year }}/{{ month }}/{{2}}">
-        2ヶ月
-        </a></li>
-        </div>
         <form action="/muscle/" method="post">
             {% csrf_token %}
             {{ trainform.as_table }}
