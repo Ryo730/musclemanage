@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap4',
     'muscle.apps.MuscleConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,6 +64,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins':[
+                    'bootstrap4.templatetags.bootstrap4',
             ],
         },
     },

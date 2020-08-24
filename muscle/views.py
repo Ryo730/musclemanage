@@ -51,7 +51,7 @@ def index(request,year=today[0],month=today[1],span=1):
             return redirect(to='/muscle/{}/{}/{}'.format(year,month,span))
 
 
-        if "weghtbutton" in data.keys():
+        if "weightbutton" in data.keys():
 
             weight=data['weight']
             BodyWeight.objects.create(
@@ -121,6 +121,6 @@ def draw_linear(year,month,span):
         weightlist.append(w.weight)
     plt.plot(daylist,weightlist)
     plt.xticks(rotation=90)
-    plt.savefig('muscle/static/images/bar_{}_{}_{}.svg'.format(year,month,span),transparent=True)   
+    plt.savefig('muscle/static/images/bar_{}_{}_{}.svg'.format(year,month,span),transparent=True)
     plt.close()
     return None
