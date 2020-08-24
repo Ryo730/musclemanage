@@ -1,9 +1,7 @@
 table{
   border-collapse:collapse;
   margin:0 0;
-}
-th{
-  color:#c170c4;
+  width:10px;
 }
 td{
   border-bottom:1px dashed #999;
@@ -12,30 +10,78 @@ th,tr:last-child td{
   border-bottom:2px solid #005ab3;
 }
 td,th{
-  padding:10px;
+  padding:7px;
 }
 
-tt{
-  display:table;
-
+input{
+  background-color: cadetblue;
+  border-radius : 10%;  
+  margin       : 6px 6px; 
+  font-size: 14pt;
 }
 
-ul.spans li {
-display: inline;
-margin-right: 5em;
+
+.form-control{
+  padding       : 6px 6px;
+  font-size     : 14pt; 
+  border        : 0.4px solid #000066; 
+  box-shadow    : 3px 3px 1px #666666;  
 }
+
+
 
 .spans li{
   display       : inline-block;
-  border-radius : 5%;          /* 角丸       */
-  font-size     : 5pt;        /* 文字サイズ */
+  border-radius : 10%;          /* 角丸       */
+  font-size     : 14pt;        /* 文字サイズ */
   text-align    : left;      /* 文字位置   */
   cursor        : pointer;     /* カーソル   */
   padding       : 6px 6px;   /* 余白       */
   background    :whitesmoke;     /* 背景色     */
-  color         :beige;     /* 文字色     */
+  color         :black;     /* 文字色     */
   line-height   : 1em;         /* 1行の高さ  */
   transition    : .3s;         /* なめらか変化 */
-  box-shadow    : 6px 6px 3px #666666;  /* 影の設定 */
-  border        : 1px solid #000066;    /* 枠の指定 */
+  box-shadow    : 3px 3px 1px #666666;  /* 影の設定 */
+  border        : 0.4px solid #000066;    /* 枠の指定 */
+  margin-right: 60pt;
 }
+
+
+
+.card {
+  border: 1px solid #f1f1f1;
+  box-shadow: 3px 3px 3px #cccccc;
+  border-radius: 15px;
+  margin: 2px;
+  width: 49%;
+
+}
+
+
+.in-card {
+  padding: 1% 6%;
+  width: 100%;
+  height: 100%;
+}
+.container {
+  max-width: 98%;
+  height: 100%;
+  padding: 3px;
+}
+
+
+
+  
+body {
+  font-family: Meiryo;
+  overflow-x: hidden;
+  width: 100vw;
+  background-color:bisque;
+}
+
+.my-row {
+  max-width: 100%;
+  margin:0 0;
+}
+
+

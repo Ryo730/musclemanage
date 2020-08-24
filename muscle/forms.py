@@ -27,9 +27,12 @@ class trainlogform(forms.Form):
 
     category = forms.ChoiceField(
         choices=category_choice,
+        
+
         widget=forms.Select(
             attrs={
-                'class': 'form-control'
+                'style':'width:100px',
+                'class': 'form-control',
                 }
             )
         )
@@ -63,7 +66,15 @@ class BodyWeightform(forms.Form):
                 }
             )
         )
-     weight=forms.FloatField()
+     weight=forms.FloatField(
+         widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'style':'width:100px',
+                'placeholder':'kg'
+            }
+         )
+     )
 
 class Spanform(forms.Form):
     spanchoices=(

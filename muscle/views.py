@@ -11,7 +11,7 @@ import pytz
 
 today = str(timezone.now()).split('-')
 def index(request,year=today[0],month=today[1],span=1):
-    train= trainlog.objects.all().order_by('used_date')
+    train= trainlog.objects.filter(used_date__month=month).order_by('-used_date')
     #body=BodyWeight.objects.all()
     trainform=trainlogform()
     weightform=BodyWeightform()
@@ -61,7 +61,7 @@ def index(request,year=today[0],month=today[1],span=1):
 
             return redirect (to='/muscle/{}/{}/{}'.format(year,month,span))            
 
-
+#'muscle/base.html'
     return render(request, 'muscle/base.html', context)
 
 #まず，spanなしの状態まで復元

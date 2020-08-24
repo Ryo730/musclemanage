@@ -1,71 +1,136 @@
 <!DOCTYPE html>
+<html lang='ja' dir="ltr">
 {% load static %}
+{% bootstrap_css %} 
+{% bootstrap_javascript jquery='full' %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'muscle/style.css' %}">
 <html>
     <head>
         <meta charset="utf-8">
         <title>MuscleTrainLog</title>
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'muscle/style.css' %}">
 
     </head>
+
+
+
+
     <body>
 
+        <h1>{{ year }}年{{ month }}月/{{span}}ヶ月分</h1>
+        <ul class="spans">
+            <li><a href="/muscle/{{ year }}/{{ month }}/{{1}}">1ヶ月</a></li>
 
-    <h1>{{ year }}年{{ month }}月/{{span}}ヶ月分</h1>
-    <ul class="spans">
-    <li><a href="/muscle/{{ year }}/{{ month }}/{{1}}">
-    1ヶ月
-    </a></li>
+            <li><a href="/muscle/{{ year }}/{{ month }}/{{2}}">2ヶ月</a></li>
+        </ul>
 
-    <li><a href="/muscle/{{ year }}/{{ month }}/{{2}}">
-    2ヶ月
-    </a></li>
-    </ul>
-    <div class='tt'>
-        <form action="/muscle/" method="post">
-            {% csrf_token %}
-            {{ trainform.as_table }}
-            <input type="submit" name="train" value="送信">
-        </form>
+<!--Grid System を使用-->
+
+        <div class="container">
+
+            <div class='container-inner'>
+
+        <!--row二つで枠を作る-->
+
+            <div class="row">
 
 
-        <form action="/muscle/" method="post">
-            {% csrf_token %}
-            {{ weightform.as_table }}
-            <input type="submit" name="weightbutton" value="送信">
-        </form>
+                <div class='card'>
+                <div class='in-card'>
+                    <h1>Train Log</h1>
 
+
+                    <form action="/muscle/" method="post">
+                        {% csrf_token %}
+                            <div class='form-inline'>
+                                {{ trainform.used_date}}
+                                {{ trainform.category}}
+                                {{ trainform.comment}}
+
+                                <input type="submit" name="train" value="送信">
+                            </div>
+
+                    </form>
+
+                    <hr>
+
+
+                     <h1>Weight Log</h1>
+
+                    <form action="/muscle/" method="post">
+                        {% csrf_token %}
+                        <div class='form-inline'>
+                        {{ weightform.used_date }}
+                        {{ weightform.weight }}
+                        <input type="submit" name="weightbutton" value="送信">
+                        </div>
+                    </form>
+                </div>
+                </div>
+
+                <div class='card'>
+
+                <div class='in-card'>
+
+
+                    <h2>バランスグラフ</h2>
+
+                            <img  src="/static/images/rador_chart_{{ year }}_{{ month }}_{{span}}.svg">
+
+
+                   
+                </div>
+                </div>
+
+            </div>
+
+
+
+           
+        <div class="row">
+          <!-- 支出履歴テーブル -->
+          <div class="card">
+            <div class="in-card">
+              <h2>最近の記録</h2>
+              <table style="table-layout:fixed;width:100%;margin-top:20px;">
+                <thead class="pay_history">
+                  <tr>
+                      <th class="used_date">日付</th>
+                      <th class="category">カテゴリ</th>
+                      <th class="comment">コメント</th>
+                     
+                  </tr>
+                </thead>
+                <tbody class="pay_history">
+                  {% for m in train %}
+                  <tr class="table_data">
+                      <td class="used_date" id="table">{{ m.used_date}}</td>
+                      <td class="category" id="table">{{ m.category }}</td>
+                      <td class="comment" id="table">{{ m.comment }}</td>
+                      </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+                <div class="card">
+                <div class="in-card">
+                             <h2>体重推移グラフ</h2>
+
+                            <img src="/static/images/bar_{{ year }}_{{ month }}_{{span}}.svg">
+
+                </div>
+                </div>
+
+
+            </div>
         </div>
-        <div class='wapper'>
-        <div class='main'>
-        <table>
-            <tr>
-                <th>日付</th>
-                <th>種目</th>
-                <th>コメント</th>
-            </tr>
-            {% for m in train %}
-            <tr>
-                <td>{{ m.used_date }}</td>
-                <td>{{ m.category }}</td>
-                <td>{{ m.comment }}</td>
-            </tr>
-            {% endfor %}
-        <table>
-
-
-
-        </div>
-        <div class="main,tt">
-                <img src="/static/images/bar_{{ year }}_{{ month }}_{{span}}.svg">
-        
-                <img src="/static/images/rador_chart_{{ year }}_{{ month }}_{{span}}.svg">
-       </div>
-
-
-
-        
-
-        </div>
+    </div>
     </body>
 </html>
