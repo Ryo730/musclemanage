@@ -7,11 +7,17 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pytz
- 
+import pylint
 
 today = str(timezone.now()).split('-')
 def index(request,year=today[0],month=today[1],span=1):
-    train= trainlog.objects.filter(used_date__month=month).order_by('-used_date')
+
+    if span==1:
+        train=trainlog.objects.filter(used_date__year=year,used_date__month=month).order_by('-used_date')[:10]
+    elif span==2:
+        train=trainlog.objects.filter(Q(used_date__year=year),(Q(used_date__month=month)|Q(used_date__month=month-1))).order_by('-used_date')[:10]
+
+
     #body=BodyWeight.objects.all()
     trainform=trainlogform()
     weightform=BodyWeightform()
