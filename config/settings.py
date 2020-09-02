@@ -25,13 +25,12 @@ SECRET_KEY = 'rghy26pf5)v=y06-$bnj)sw1ml(+-2fifd$8)lh5@r&m-e*c0m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'yonosuke.pythonanywhere.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'bootstrap4',
     'muscle.apps.MuscleConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
