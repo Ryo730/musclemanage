@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'muscle/style.css' %}">
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -21,116 +22,130 @@
 
 
     <body>
-
-        <h1>{{ year }}年{{ month }}月/{{span}}ヶ月分</h1>
         <ul class="spans">
-            <li><a href="/muscle/{{ year }}/{{ month }}/{{1}}">1ヶ月</a></li>
 
-            <li><a href="/muscle/{{ year }}/{{ month }}/{{2}}">2ヶ月</a></li>
+
+            <li class='yearmonth'>{{ year }}年{{ month }}月/{{span}}ヶ月分<span style='margin-right:5em'</span></li>
+        
+            <li class='sp'><a href="/muscle/{{ year }}/{{ month }}/{{1}}">1ヶ月</a></li>
+
+            <li class='sp'><a href="/muscle/{{ year }}/{{ month }}/{{2}}">2ヶ月</a></li>
         </ul>
 
-<!--Grid System を使用-->
+        <!--Grid System を使用-->
 
         <div class="container">
 
             <div class='container-inner'>
 
-        <!--row二つで枠を作る-->
+            <!--row二つで枠を作る-->
 
-            <div class="row">
-
-
-                <div class='card'>
-                <div class='in-card'>
-                    <h1>Train Log</h1>
+                <div class="row">
 
 
-                    <form action="/muscle/" method="post">
-                        {% csrf_token %}
-                            <div class='form-inline'>
-                                {{ trainform.used_date}}
-                                {{ trainform.category}}
-                                {{ trainform.comment}}
-
-                                <input type="submit" name="train" value="送信">
-                            </div>
-
-                    </form>
-
-                    <hr>
+                    <div class='card'>
+                        <div class='in-card'>
+                            <h1>Train Log</h1>
 
 
-                     <h1>Weight Log</h1>
+                            <form action="/muscle/" method="post">
+                                {% csrf_token %}
+                                    <div class='form-inline'>
+                                        {{ trainform.used_date}}
+                                        {{ trainform.category}}
+                                        {{ trainform.comment}}
 
-                    <form action="/muscle/" method="post">
-                        {% csrf_token %}
-                        <div class='form-inline'>
-                        {{ weightform.used_date }}
-                        {{ weightform.weight }}
-                        <input type="submit" name="weightbutton" value="送信">
+                                        <input type="submit" name="train" value="送信">
+                                    </div>
+
+                            </form>
+
+                            <hr>
+
+
+                            <h1>Weight Log</h1>
+
+                            <form action="/muscle/" method="post">
+                                {% csrf_token %}
+                                <div class='form-inline'>
+                                    {{ weightform.used_date }}
+                                    {{ weightform.weight }}
+                                    <input type="submit" name="weightbutton" value="送信">
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-                </div>
+                    </div>
+                    <!-- 支出履歴テーブル -->
+                    <div class="card">
 
-                <div class='card'>
+                        <div class="in-card">
 
-                <div class='in-card'>
+                            <h2>最近の記録</h2>
 
-
-                    <h2>バランスグラフ</h2>
-
-                            <img  src="/static/images/rador_chart_{{ year }}_{{ month }}_{{span}}.svg">
+                            <table style="table-layout:fixed;width:100%;margin-top:20px;">
 
 
-                   
-                </div>
-                </div>
+                                <thead class="pay_history">
+                                    <tr>
+                                        <th class="used_date">日付</th>
+                                        <th class="category">カテゴリ</th>
+                                        <th class="comment">コメント</th>
+                                    </tr>
+                                </thead>
 
-            </div>
+                                <tbody class="pay_history">
+                                    {% for m in train %}
+                                        <tr class="table_data">
+                                            <td class="used_date" id="table">{{ m.used_date}}</td>
+                                            <td class="category" id="table">{{ m.category }}</td>
+                                            <td class="comment" id="table">{{ m.comment }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
 
 
-
-           
-        <div class="row">
-          <!-- 支出履歴テーブル -->
-          <div class="card">
-            <div class="in-card">
-              <h2>最近の記録</h2>
-              <table style="table-layout:fixed;width:100%;margin-top:20px;">
-                <thead class="pay_history">
-                  <tr>
-                      <th class="used_date">日付</th>
-                      <th class="category">カテゴリ</th>
-                      <th class="comment">コメント</th>
-                     
-                  </tr>
-                </thead>
-                <tbody class="pay_history">
-                  {% for m in train %}
-                  <tr class="table_data">
-                      <td class="used_date" id="table">{{ m.used_date}}</td>
-                      <td class="category" id="table">{{ m.category }}</td>
-                      <td class="comment" id="table">{{ m.comment }}</td>
-                      </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-                <div class="card">
-                <div class="in-card">
-                             <h2>体重推移グラフ</h2>
-
-                            <img src="/static/images/bar_{{ year }}_{{ month }}_{{span}}.svg">
+                            </table>
+                        </div>
+                    </div>
+                    
 
                 </div>
+
+
+
+            
+                <div class="row">
+                    <div class='card'>
+
+                        <div class='in-card'>
+
+
+                            <h2>バランスグラフ</h2>
+
+                            <img  src="/static/images/rador_chart_{{ year }}_{{ month }}_{{span}}.svg" class="img-fluid">
+
+
+
+                        
+                        </div>
+                    </div>
+                    
+
+
+
+                    <div class='card'>
+                        <div class='in-card'>
+
+                                <h2>体重推移グラフ</h2>
+                                <!--注意：imgタグの中のclassを設定するときスペース開けんように-->
+                                <img src="/static/images/bar_{{ year }}_{{ month }}_{{span}}.svg"class="img-fluid">
+
+                        </div>
+                    </div>
+
+
                 </div>
-
-
             </div>
         </div>
-    </div>
     </body>
 </html>
