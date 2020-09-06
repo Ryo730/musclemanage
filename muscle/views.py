@@ -3,7 +3,6 @@ from django.utils import timezone
 from .models import trainlog,BodyWeight
 from .forms import  trainlogform,BodyWeightform
 from  django.db.models import Q
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pytz
